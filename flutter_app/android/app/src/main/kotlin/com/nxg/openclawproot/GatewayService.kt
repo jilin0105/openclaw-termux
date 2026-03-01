@@ -80,6 +80,11 @@ class GatewayService : Service() {
                 val nativeLibDir = applicationContext.applicationInfo.nativeLibraryDir
                 val pm = ProcessManager(filesDir, nativeLibDir)
 
+                // Refresh resolv.conf before every gateway start so DNS always works,
+                // even after Android clears the app's file cache.
+                val bootstrapManager = BootstrapManager(applicationContext, filesDir, nativeLibDir)
+                bootstrapManager.writeResolvConf()
+
                 gatewayProcess = pm.startProotProcess("openclaw gateway --verbose")
                 updateNotificationRunning()
                 emitLog("Gateway started")

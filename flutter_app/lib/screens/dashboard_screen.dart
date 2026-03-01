@@ -107,6 +107,15 @@ class DashboardScreen extends StatelessWidget {
                 MaterialPageRoute(builder: (_) => const LogsScreen()),
               ),
             ),
+            StatusCard(
+              title: 'Snapshot',
+              subtitle: 'Backup or restore your config',
+              icon: Icons.backup,
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const SettingsScreen()),
+              ),
+            ),
             Consumer<NodeProvider>(
               builder: (context, nodeProvider, _) {
                 final nodeState = nodeProvider.state;

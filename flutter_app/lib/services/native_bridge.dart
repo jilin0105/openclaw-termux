@@ -137,4 +137,24 @@ class NativeBridge {
   static Future<bool> stopScreenCapture() async {
     return await _channel.invokeMethod('stopScreenCapture');
   }
+
+  static Future<bool> requestStoragePermission() async {
+    return await _channel.invokeMethod('requestStoragePermission');
+  }
+
+  static Future<bool> hasStoragePermission() async {
+    return await _channel.invokeMethod('hasStoragePermission');
+  }
+
+  static Future<String> getExternalStoragePath() async {
+    return await _channel.invokeMethod('getExternalStoragePath');
+  }
+
+  static Future<String?> readRootfsFile(String path) async {
+    return await _channel.invokeMethod('readRootfsFile', {'path': path});
+  }
+
+  static Future<bool> writeRootfsFile(String path, String content) async {
+    return await _channel.invokeMethod('writeRootfsFile', {'path': path, 'content': content});
+  }
 }

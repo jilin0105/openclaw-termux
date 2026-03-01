@@ -41,6 +41,9 @@ class GatewayService {
 
     final alreadyRunning = await NativeBridge.isGatewayRunning();
     if (alreadyRunning) {
+      // Refresh resolv.conf so DNS keeps working even if the file was
+      // deleted or corrupted while the app was in the background.
+      await NativeBridge.writeResolv();
       // Write allowCommands config so the next gateway restart picks it up,
       // and in case the running gateway supports config hot-reload.
       await _writeNodeAllowConfig();
@@ -134,6 +137,8 @@ fs.writeFileSync(p, JSON.stringify(c, null, 2));
     ));
 
     try {
+      // Refresh resolv.conf before every start so DNS always works.
+      await NativeBridge.writeResolv();
       await _writeNodeAllowConfig();
       await NativeBridge.startGateway();
       _subscribeLogs();

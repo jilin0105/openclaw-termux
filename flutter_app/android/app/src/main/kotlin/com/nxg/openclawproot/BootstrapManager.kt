@@ -1219,6 +1219,19 @@ require('/root/.openclaw/proot-compat.js');
         File("$configDir/resolv.conf").writeText("nameserver 8.8.8.8\nnameserver 8.8.4.4\n")
     }
 
+    /** Read a file from inside the rootfs (e.g. /root/.openclaw/openclaw.json). */
+    fun readRootfsFile(path: String): String? {
+        val file = File("$rootfsDir/$path")
+        return if (file.exists()) file.readText() else null
+    }
+
+    /** Write content to a file inside the rootfs, creating parent dirs as needed. */
+    fun writeRootfsFile(path: String, content: String) {
+        val file = File("$rootfsDir/$path")
+        file.parentFile?.mkdirs()
+        file.writeText(content)
+    }
+
     /**
      * Create fake /proc and /sys files that are bind-mounted into proot.
      * Android restricts access to many /proc entries; proot-distro works
